@@ -36,9 +36,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('name', type=str, default="default")
     parser.add_argument('time', type=float, default=300)
+    parser.add_argument('time', type=int, default=5)
     args = parser.parse_args()
-
-    max_files = 15
+    
     output_dir = "/output"
     input_dir = "/input"
 
@@ -51,8 +51,8 @@ def main():
         p1.start()
 
         zip_files = glob.glob(os.path.join(output_dir, '*.zip'))
-        if len(zip_files) > max_files:
-            p2 = Process(target=delete_oldest, args=(output_dir, max_files))
+        if len(zip_files) > args.max:
+            p2 = Process(target=delete_oldest, args=(output_dir, args.max))
             p2.start()
 
         time.sleep(args.time)
